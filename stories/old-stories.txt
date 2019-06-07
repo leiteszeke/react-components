@@ -1,0 +1,281 @@
+// Dependencies
+import * as React from 'react';
+// Storybook
+import { storiesOf } from '@storybook/react';
+import { State, Store } from "@sambego/storybook-state";
+import { withState } from '@dump247/storybook-state';
+// Components
+import { Checkbox } from '../src/components/Checkbox/Checkbox';
+import { ComponentPresentation } from '../src/components/ComponentPresentation/ComponentPresentation';
+import { ExtDropdown, ExtDropdownItem } from '../src/components/ExtDropdown/ExtDropdown';
+import { Backdrop } from '../src/components/Backdrop/Backdrop';
+import { Colors } from '../src/components/Colors/Colors';
+import { Filter } from '../src/components/Icons/Filter';
+import { FilterChip } from '../src/components/FilterChip/FilterChip';
+import { Header } from '../src/components/Header/Header';
+import { Management } from '../src/components/Icons/Management';
+import { Layout } from '../src/components/Layout/Layout';
+import { RadioGroup } from '../src/components/Radio/RadioGroup';
+import { Sidebar } from '../src/components/Sidebar/Sidebar';
+import { Spinner } from '../src/components/Spinner/Spinner';
+
+const store = new Store({
+  active: false,
+  openedBackdrop: false,
+  openUserPanel: false,
+  showUserPanel: false,
+});
+
+const initialState = {
+  items: [
+    {
+      checked: false,
+      label: 'Opcion 1',
+      value: 1,
+    },
+    {
+      checked: true,
+      label: 'Opcion 2',
+      value: 2,
+    },
+    {
+      checked: false,
+      label: 'Opcion 3',
+      value: 3,
+    },
+    {
+      checked: false,
+      label: 'Opcion 4',
+      value: 4,
+    },
+  ],
+}
+
+storiesOf('Dropdown', module)
+.add('with material icon', () => {
+  const handleClick = (active) => {
+    store.set({ active });
+  }
+
+  return (
+    <State store={ store }>
+      <ExtDropdown
+        active={ store.get('active') }
+        color={ Colors.Mario }
+        onClick={ handleClick }
+        materialIcon="more_horiz"
+      >
+        <ExtDropdownItem color={ Colors.Beavis }>Ver detalle</ExtDropdownItem>
+        <ExtDropdownItem color={ Colors.Beavis }>Eliminar</ExtDropdownItem>
+      </ExtDropdown>
+    </State>
+  )
+});
+
+storiesOf('Layout', module)
+.add('with something', () => {
+  return (
+    <State store={ store }>
+      <Layout />
+    </State>
+  )
+})
+
+storiesOf('Header', module)
+.add('with something', () => {
+  const menuItems = [
+    {
+      isSeparator: false,
+      label: 'Usuario',
+      onClick: false,
+    },
+    {
+      isSeparator: true,
+    },
+    {
+      isSeparator: false,
+      label: 'Cambiar contrasena',
+      onClick: false,
+    },
+    {
+      isSeparator: false,
+      label: 'Salir',
+      onClick: false,
+    },
+  ];
+
+  return (
+    <State store={ store }>
+      <Header
+        breadcrumb={ 'Header' }
+        leftIcon={ <Filter backgroundColor="transparent" fillColor={ Colors.White.level4 } /> }
+        menuItems={ menuItems }
+        onUserPanel={ () => store.set({ userPanelVisible: !store.get('userPanelVisible') }) }
+        showBackButton={ false }
+        userPanelVisible={ store.get('userPanelVisible') }
+      />
+    </State>
+  )
+})
+
+storiesOf('Sidebar', module)
+.add('with something', () => {
+  const userPanel = () => {
+    const icon = (
+      <Management
+        fillColor={ Colors.White.level4 }
+        height={ 32 }
+        onClick={ () => store.set({ openUserPanel: !store.get('openUserPanel') }) }
+        style={{ padding: '20px 0' }}
+        width={ 32 }
+      />
+    );
+
+    return (
+      <React.Fragment>
+        { icon }
+        <ExtDropdown
+          active={ store.get('openUserPanel') }
+          withButton={ false }
+        >
+          <ExtDropdownItem>
+            <span className="dropdown-item__link" title="Mi Usuario">
+              Mi Usuario
+            </span>
+          </ExtDropdownItem>
+
+          <ExtDropdownItem separator={ true } />
+
+          <ExtDropdownItem className="dropdown-item">
+            <button type="button" className="dropdown-item__link">
+              Cambiar contrasena
+            </button>
+          </ExtDropdownItem>
+
+          <ExtDropdownItem className="dropdown-item">
+            <a href="/salir" className="dropdown-item__link">
+              Salir
+            </a>
+          </ExtDropdownItem>
+        </ExtDropdown>
+      </React.Fragment>
+    );
+  }
+
+  const topItems = [
+    {
+      color: Colors.Beavis,
+      label: 'Resumen',
+      sectionId: 'summary',
+      icon: {
+        active: '',
+        normal: '',
+      },
+    },
+    {
+      color: Colors.Beavis,
+      label: 'Autogestion',
+      sectionId: 'management',
+      icon: {
+        active: <Management fillColor={ Colors.White.level4 } height={ 32 } width={ 32 } />,
+        normal: <Management fillColor={ Colors.White.level4 } height={ 32 } width={ 32 } />,
+      },
+    }
+  ];
+
+  const bottomItems = [
+    {
+      color: Colors.Beavis,
+      element: userPanel(),
+      label: 'Resumen',
+      sectionId: 'summary',
+      icon: {
+        active: <Management fillColor={ Colors.White.level4 } height={ 32 } width={ 32 } />,
+        normal: <Management fillColor={ Colors.White.level4 } height={ 32 } width={ 32 } />,
+      },
+    },
+  ];
+
+  return (
+    <State store={ store }>
+      <Sidebar topItems={ topItems } bottomItems={ bottomItems } />
+    </State>
+  )
+})
+
+storiesOf('Spinner', module)
+.add('with something', () => {
+  return (
+    <Spinner title="Cargando" loading={ true } relative={ true } />
+  )
+})
+
+storiesOf('Backdrop', module)
+.add('with something', () => {
+  return (
+    <State store={ store }>
+      <Backdrop
+        onClose={ () => store.set({ openedBackdrop: false }) }
+        onOpen={ () => store.set({ openedBackdrop: true }) }
+        opened={ store.get('openedBackdrop') }
+      />
+    </State>
+  )
+})
+
+storiesOf('FilterChip', module)
+.add('with something', () => {
+  return (
+    <React.Fragment>
+      <FilterChip label="Con Boton" removable={ true } />
+      <FilterChip label="Sin Boton" />
+    </React.Fragment>
+  )
+})
+
+storiesOf('Checkbox', module)
+.add('with something', () => {
+  return (
+    <React.Fragment>
+      <Checkbox label="Checkeado" checked={ true } />
+      <Checkbox label="Sin Checkear" />
+      <Checkbox label="Linkeado" linkable={ true } linked={ true } />
+      <Checkbox label="Deshabilitado Checkeado" disabled={ true } checked={ true } />
+      <Checkbox label="Deshabilitado Sin Checkear" disabled={ true } />
+    </React.Fragment>
+  )
+})
+
+storiesOf('RadioGroup', module)
+.add('with something', withState({ items: initialState.items })(({ store }) => {
+  const componentProps = [
+    { name: 'label', type: 'string', description: 'Label for Radio Button' },
+    { name: 'color', type: 'enum: `PrimaryColor`, `InstitutionalColor`', default: 'Milhouse', description: 'Text Color Label for Radio Button' },
+  ];
+
+  const componentStyles = [
+    { name: 'label', description: 'Label for Radio Button' },
+    { name: 'color', description: 'Text Color Label for Radio Button' },
+  ];
+
+  return (
+    <React.Fragment>
+      <ComponentPresentation
+        title="Radio Button"
+        subtitle="El Radio Button es un componente de selección única entre múltiple opciones."
+        description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
+        name="{ RadioButton }"
+        library="@extendeal/ui-toolkit"
+        componentProps={ componentProps }
+        componentStyles={ componentStyles }
+        children={
+          <RadioGroup
+            name="radios"
+            items={ store.state.items }
+            onClick={ (name, items) => store.set({ items }) }
+          />
+        }
+      />
+    </React.Fragment>
+  )
+}))

@@ -1,0 +1,131 @@
+{
+	"name": "@leiteszeke/react-components",
+	"version": "1.0.0",
+	"description": "React Components",
+	"main": "build/index.js",
+	"types": "build/index.d.ts",
+	"files": [
+		"build"
+	],
+	"scripts": {
+		"build": "webpack",
+		"build-prod": "webpack -p",
+		"deploy": "npm run build && sh deploy.sh ",
+		"watch": "webpack --watch --watch-poll ",
+		"lint": "tslint './src/**/*.tsx' -w",
+		"test": "npm run lint && karma start",
+		"pass": "echo 'it passes'",
+		"prepublish": "rm -rf ./build && npm run build-prod",
+		"storybook": "cp build/index.js .storybook/toolkit.js && start-storybook -p 6006 -c .storybook -s .storybook",
+		"build-storybook": "build-storybook -s .storybook",
+		"deploy-storybook": " cp build/index.js .storybook/toolkit.js && npm run build-storybook && cp now.json storybook-static/ && now storybook-static/"
+	},
+	"jest": {
+		"moduleFileExtensions": [
+			"ts",
+			"tsx",
+			"js"
+		],
+		"transform": {
+			"^.+\\.(js)$": "<rootDir>/node_modules/babel-jest",
+			"\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+		},
+		"testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+		"testPathIgnorePatterns": [
+			"\\.snap$",
+			"<rootDir>/node_modules/"
+		],
+		"cacheDirectory": ".jest/cache",
+		"snapshotSerializers": [
+			"enzyme-to-json/serializer"
+		]
+	},
+	"keywords": [
+		"react",
+		"components"
+	],
+	"pre-commit": "pass",
+	"author": "Ezequiel Leites <ezequiel@leites.dev>",
+	"license": "ISC",
+	"devDependencies": {
+		"@babel/core": "^7.2.0",
+		"@babel/plugin-proposal-class-properties": "^7.1.0",
+		"@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+		"@babel/plugin-transform-runtime": "^7.2.0",
+		"@babel/polyfill": "^7.0.0",
+		"@babel/preset-env": "^7.1.0",
+		"@babel/preset-react": "^7.0.0",
+		"@babel/preset-typescript": "^7.1.0",
+		"@dump247/storybook-state": "^1.5.2",
+		"@fortawesome/fontawesome-free": "^5.9.0",
+		"@sambego/storybook-state": "^1.3.2",
+		"@storybook/addon-actions": "^4.0.6",
+		"@storybook/addon-info": "^4.0.6",
+		"@storybook/addon-links": "^4.0.6",
+		"@storybook/addon-options": "^4.0.8",
+		"@storybook/addons": "^4.0.6",
+		"@storybook/components": "^4.0.9",
+		"@storybook/react": "^4.0.6",
+		"@storybook/ui": "^4.0.9",
+		"@types/classnames": "^2.2.6",
+		"@types/enzyme": "^3.1.15",
+		"@types/enzyme-adapter-react-16": "^1.0.3",
+		"@types/jest": "^23.3.9",
+		"@types/node": "^10.12.6",
+		"@types/numeral": "0.0.25",
+		"@types/react": "^16.7.6",
+		"@types/react-dom": "^16.0.9",
+		"@types/react-test-renderer": "^16.0.3",
+		"@types/storybook__react": "^4.0.0",
+		"@types/styled-components": "^4.0.3",
+		"awesome-typescript-loader": "^5.2.1",
+		"babel-loader": "^8.0.4",
+		"concurrently": "^4.1.0",
+		"enzyme": "^3.7.0",
+		"enzyme-adapter-react-16": "^1.7.0",
+		"enzyme-to-json": "^3.3.4",
+		"eslint": "^5.9.0",
+		"eslint-plugin-import": "^2.14.0",
+		"eslint-plugin-jsx-a11y": "^6.1.2",
+		"eslint-plugin-react": "^7.11.1",
+		"eslint-watch": "^4.0.2",
+		"glob": "^7.1.1",
+		"html-webpack-plugin": "^3.2.0",
+		"jest": "^24.1.0",
+		"pre-commit": "^1.2.2",
+		"react": "^16.8.3",
+		"react-dom": "^16.8.3",
+		"react-svg-loader": "^2.1.0",
+		"ts-loader": "^5.3.1",
+		"tslint": "^5.9.1",
+		"tslint-config-airbnb": "^5.11.1",
+		"tslint-config-standard": "^7.0.0",
+		"tslint-loader": "^3.5.4",
+		"typescript": "^2.8.1",
+		"vanilla-typescript": "^0.4.10",
+		"webpack": "^4.4.1",
+		"webpack-build-notifier": "^0.1.23",
+		"webpack-cli": "^3.1.2"
+	},
+	"browserslist": [
+		"> 1%",
+		"last 2 versions"
+	],
+	"dependencies": {
+		"@fortawesome/fontawesome-svg-core": "^1.2.19",
+		"@fortawesome/free-solid-svg-icons": "^5.9.0",
+		"@fortawesome/react-fontawesome": "^0.1.4",
+		"@types/react": "^16.7.17",
+		"@types/react-datepicker": "^2.0.2",
+		"@types/react-dom": "^16.0.11",
+		"moment": "^2.23.0",
+		"react-animate-height": "^2.0.7",
+		"react-datepicker": "^2.0.0",
+		"react-live": "^1.12.0",
+		"styled-components": "^4.1.2"
+	},
+	"peerDependencies": {
+		"react": "^16.8.3",
+		"react-dom": "^16.8.3"
+	}
+}
