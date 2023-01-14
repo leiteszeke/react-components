@@ -105,7 +105,7 @@
 		"vanilla-typescript": "^0.4.10",
 		"webpack": "^4.4.1",
 		"webpack-build-notifier": "^0.1.23",
-		"webpack-cli": "^3.1.2"
+		"webpack-cli": "^3.3.12"
 	},
 	"browserslist": [
 		"> 1%",
